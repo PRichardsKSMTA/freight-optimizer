@@ -1,0 +1,1 @@
+CreateObject("Wscript.Shell").Run "C:\Users\Public\Documents\KSMTA_Optimization\Optimizer.bat", 0, True
