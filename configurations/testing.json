@@ -1,0 +1,64 @@
+{
+    "solver": {
+        "solverTimeLimitSeconds": null,
+        "solverName": "mosek",
+        "minimumNetMargin": 0.2
+    },
+    "model": {
+        "travelingSalesman": false,
+        "twoTourLimit": true
+    },
+    "data": {
+        "trips": {
+            "columns": {
+                "trip_id": "AggLoadID",
+                "trip_revenue": "AggTotalRev",
+                "trip_cost": "AggLdCost",
+                "trip_distance": "AggLdMiles",
+                "trip_origin_zip": "AggOrgZip",
+                "trip_destination_zip": "AggDstZip"
+            }
+        }
+    },
+    "max_deadhead": {
+        "value": null,
+        "minimum": 0,
+        "maximum": 10000
+    },
+    "cost_per_empty_mile": {
+        "value": 1.0,
+        "minimum": 0,
+        "maximum": 10000
+    },
+    "application_settings": {
+        "window": {
+            "title": "KSM Freight Optimization",
+            "height": 800,
+            "width": 400
+        },
+        "header": {
+            "title": "Freight Optimization",
+            "description": "",
+            "header_color": "#007aff",
+            "header_image_path": "./configurations/ksm_logo.svg"
+        },
+        "footer": {
+            "footer_color": "#007aff",
+            "run_button": {
+                "label": "Run",
+                "background_color": "#089000",
+                "text_color": "#ffffff"
+            },
+            "reset_button": {
+                "label": "Reset Configurations",
+                "background_color": "#007aff",
+                "text_color": "#ffffff"
+            },
+            "save_button": {
+                "label": "Save Configurations",
+                "background_color": "#007aff",
+                "text_color": "#ffffff"
+            }
+        }
+    }
+}

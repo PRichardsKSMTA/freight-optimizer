@@ -1,0 +1,264 @@
+{
+    "solver": {
+        "solverTimeLimitSeconds": null,
+        "solverName": "mosek",
+        "minimumNetMargin": 0.2
+    },
+    "model": {
+        "tsp": false,
+        "two_trip_limit": true
+    },
+    "data": {
+        "trips": {
+            "columns": {
+                "trip_id": "AggLoadID",
+                "trip_revenue": "AggTotalRev",
+                "trip_cost": "AggLdCost",
+                "trip_distance": "AggLdMiles",
+                "trip_origin_zip": "AggOrgZip",
+                "trip_destination_zip": "AggDstZip"
+            }
+        }
+    },
+    "max_deadhead": 500,
+    "cost_per_empty_mile": 1.0,
+    "margin_target": 0.2,
+    "date_filter": {
+        "absolute": {
+            "start": null,
+            "end": null
+        },
+        "relative": {
+            "start": 0,
+            "end": 60
+        }
+    },
+    "configuration_name": "Test Config #3",
+    "application_settings": {
+        "font_family": "Arial",
+        "label": {
+            "header": {
+                "text_color": "#ffffff",
+                "font_size": 16,
+                "font_weight": 700
+            },
+            "main": {
+                "text_color": "#000000",
+                "font_size": 12,
+                "font_weight": "normal"
+            }
+        },
+        "entry": {
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "border_color": "#000000",
+            "font_size": 12,
+            "disabled": {
+                "background_color": "lightgray",
+                "text_color": "lightgray",
+                "border_color": "#000000"
+            }
+        },
+        "window": {
+            "title": "KSM Freight Optimization",
+            "height": 800,
+            "width": 800
+        },
+        "header": {
+            "title": "KSM Freight Optimization",
+            "height": 50,
+            "description": "",
+            "header_color": "#007aff",
+            "header_image_path": "./configurations/images/ksm_logo.svg"
+        },
+        "footer": {
+            "footer_color": "#007aff",
+            "height": 60,
+            "run_button": {
+                "label": "Run",
+                "background_color": "#ffffff",
+                "text_color": "#003167",
+                "hover_background_color": "#003167",
+                "hover_text_color": "#ffffff",
+                "border_color": "#003167"
+            },
+            "reset_button": {
+                "label": "Reset Configurations",
+                "background_color": "#ffffff",
+                "text_color": "#003167",
+                "hover_background_color": "#003167",
+                "hover_text_color": "#ffffff",
+                "border_color": "#003167"
+            },
+            "save_button": {
+                "label": "Save Configurations",
+                "background_color": "#ffffff",
+                "text_color": "#003167",
+                "hover_background_color": "#003167",
+                "hover_text_color": "#ffffff",
+                "border_color": "#003167"
+            },
+            "load_button": {
+                "label": "Load Configuration",
+                "background_color": "#ffffff",
+                "text_color": "#003167",
+                "hover_background_color": "#003167",
+                "hover_text_color": "#ffffff",
+                "border_color": "#003167"
+            }
+        },
+        "configuration_panel": {
+            "background_color": "#007aff",
+            "configuration_name_entry": {
+                "label": "Configuration Name",
+                "background_color": "#007aff",
+                "text_color": "#ffffff",
+                "tooltip": "Enter a unique name for the configuration. This name will be used to save the configuration."
+            },
+            "model_selector": {
+                "label": "Model Selector",
+                "tooltip": "Select the model to be used for the optimization. You must select at least one model. If more than one model is selected, then multiple result sets will be generated.",
+                "two_trip_limit": {
+                    "label": "Two Trip Limit",
+                    "tooltip": "Select this option to run the two-trip limit model. This is the baseline model that limits the size of each tour to two trips."
+                },
+                "tsp": {
+                    "label": "Modified Traveling Salesman",
+                    "tooltip": "Select this option to run the modified traveling salesman model. This model allows tours of any size."
+                }
+            },
+            "max_deadhead_selector": {
+                "minimum": 0,
+                "maximum": 10000,
+                "label": "Maximum Deadhead",
+                "tooltip": "Enter the maximum deadhead distance in miles. This is the maximum distance that a vehicle can travel without a load."
+            },
+            "mileage_rate_selector": {
+                "minimum": 0,
+                "maximum": 10000,
+                "label": "Mileage Rate",
+                "tooltip": "Enter the mileage rate in dollars per mile. This is the cost per mile that a vehicle incurs when traveling without a load."
+            },
+            "margin_target_selector": {
+                "minimum": 0,
+                "maximum": 1,
+                "label": "Margin Target",
+                "tooltip": "Enter the margin target. This is the minimum margin that must be achieved across the system for accepted trips."
+            },
+            "date_filters": {
+                "title": "Date Filters",
+                "tooltip": "Select the date filters to be used for the optimization.",
+                "none": {
+                    "label": "None",
+                    "tooltip": "Select this option to run the optimization without any date filters."
+                },
+                "relative": {
+                    "label": "Relative Day Range",
+                    "tooltip": "Select this option to run the optimization with relative date filters. The optimization will be run for each day in the selected range.",
+                    "start": {
+                        "label": "Start Date",
+                        "minimum": -1000,
+                        "maximum": 1000,
+                        "step_size": 1,
+                        "tooltip": "Select the start date for the optimization."
+                    },
+                    "end": {
+                        "label": "End Date",
+                        "minimum": -1000,
+                        "maximum": 1000,
+                        "step_size": 1,
+                        "tooltip": "Select the end date for the optimization."
+                    }
+                },
+                "absolute": {
+                    "label": "Absolute Date Range",
+                    "tooltip": "Select the date range for the optimization. The optimization will be run for each day in the selected range.",
+                    "start": {
+                        "label": "Start Date",
+                        "tooltip": "Select the start date for the optimization."
+                    },
+                    "end": {
+                        "label": "End Date",
+                        "tooltip": "Select the end date for the optimization."
+                    }
+                }
+            }
+        },
+        "output_panel": {
+            "background_color": "#007aff",
+            "run_table": {
+                "completed": {
+                    "background_color": "#089000",
+                    "text_color": "#ffffff"
+                },
+                "queued": {
+                    "background_color": "#ff731c",
+                    "text_color": "#ffffff"
+                },
+                "error": {
+                    "background_color": "#ff0000",
+                    "text_color": "#ffffff"
+                },
+                "running": {
+                    "background_color": "#007aff",
+                    "text_color": "#ffffff"
+                }
+            },
+            "buttons": {
+                "cancel_button": {
+                    "label": "Cancel",
+                    "background_color": "#ffffff",
+                    "text_color": "#003167",
+                    "hover_background_color": "#003167",
+                    "hover_text_color": "#ffffff",
+                    "border_color": "#003167"
+                }
+            }
+        },
+        "dialog": {
+            "save_button": {
+                "label": "Save",
+                "background_color": "#089000",
+                "text_color": "#ffffff",
+                "hover_background_color": "#003167",
+                "hover_text_color": "#ffffff",
+                "border_color": "#003167"
+            },
+            "cancel_button": {
+                "label": "Cancel",
+                "background_color": "#007aff",
+                "text_color": "#ffffff",
+                "hover_background_color": "#003167",
+                "hover_text_color": "#ffffff",
+                "border_color": "#003167"
+            },
+            "load_button": {
+                "label": "Load Configuration",
+                "background_color": "#007aff",
+                "text_color": "#ffffff",
+                "hover_background_color": "#003167",
+                "hover_text_color": "#ffffff",
+                "border_color": "#003167",
+                "tooltip_text": "Load selected configuration.",
+                "invalid_tooltip_text": "Please select a configuration from the above table prior to loading."
+            },
+            "delete_button": {
+                "label": "Delete Configuration",
+                "background_color": "#ff731c",
+                "text_color": "#ffffff",
+                "hover_background_color": "#a53f00",
+                "hover_text_color": "#ffffff",
+                "border_color": "#a53f00",
+                "tooltip_text": "Delete selected configuration.",
+                "invalid_tooltip_text": "Please select a configuration from the above table for deletion."
+            },
+            "width": 600
+        },
+        "tooltip": {
+            "icon_image_path": "./configurations/images/info.png",
+            "hover_color": "white"
+        }
+    },
+    "last_modified": "2023-10-25 08:42:49",
+    "date_created": "2023-10-25 08:42:33"
+}

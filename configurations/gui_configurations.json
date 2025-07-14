@@ -1,0 +1,526 @@
+{
+    "solver_settings": {
+        "solver": "gurobi"
+    },
+    "database_configurations": {
+        "server": "ksm-ksmta-sqlsrv-001.database.windows.net",
+        "database": "KSMTA",
+        "username": "AZURE_SQL_USERNAME",
+        "password": "AZURE_SQL_PASSWORD",
+        "credential_account": "ksm"
+    },
+    "database_configurations_old": {
+        "account": "a8639454119861-ue85361",
+        "database": "KSMTA_FREIGHTMATH",
+        "schema": "PUBLIC",
+        "username": "KSMTA_OPTIMIZER_USER",
+        "credential_account": "KSMTA_Snowflake_Optimizer"
+    },
+    "application_settings": {
+        "font_family": "Arial",
+        "start_of_week": "Sunday",
+        "date_format": "%Y-%m-%d",
+        "label": {
+            "header": {
+                "text_color": "#ffffff",
+                "font_size": 16,
+                "font_weight": 700
+            }, 
+            "main": {
+                "text_color": "#000000",
+                "font_size": 12,
+                "font_weight": "normal"               
+            }
+        },
+        "groupbox": {
+            "background_color": "#007aff",
+            "text_color": "#ffffff",
+            "font_size": 12,
+            "font_weight": "normal",
+            "border_color": "#ffffff",
+            "disabled_background_color": "#c9c7c7",
+            "disabled_title_color": "#003167",
+            "disabled_border_color": "#003167",
+            "disabled_label_color": "#003167"
+        },
+        "entry": {
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "border_color": "#000000",
+            "font_size": 12,
+            "disabled": {
+                "background_color": "lightgray",
+                "text_color": "lightgray",
+                "border_color": "#000000"
+            }
+        },
+        "window": {
+            "title": "KSM Freight Optimization",
+            "minimum_height": 400,
+            "starting_height": 750,
+            "maximum_height": 1000,
+            "width": 800
+        },
+        "header": {
+            "title": "KSM Freight Optimization",
+            "height": 50,
+            "description": "",
+            "header_color": "#007aff",
+            "header_image_path": "./configurations/images/ksm_logo.svg"
+        },
+        "footer": {
+            "footer_color": "#007aff",
+            "height": 60,
+            "run_button": {
+                "label": "Run",
+                "background_color": "#ffffff",
+                "text_color": "#003167",
+                "hover_background_color": "#003167",
+                "hover_text_color": "#ffffff",
+                "border_color": "#003167",
+                "tooltip_text": "Run the optimization.",
+                "invalid_tooltip_text": "Please select a client prior to running.",
+                "invalid_background_color": "#c9c7c7",
+                "invalid_hover_background_color": "#a8a7a7"
+            }
+        },
+        "configuration_panel": {
+            "background_color": "#007aff",
+            "left_width": 380,
+            "right_width": 340,
+            "configuration_customer_information": {
+                "groupbox_title": "Client",
+                "label": "Client Select",
+                "background_color": "#007aff",
+                "text_color": "#ffffff",
+                "tooltip": "Select a client for this optimization.",
+                "height": 100,
+                "customer_selection_dialog": {
+                    "title": "Client Selection",
+                    "label": "Client:",
+                    "tooltip": "Select the client for this optimization.",
+                    "display_field": "CLIENT_NAME",
+                    "value_field": "CLIENT_ID"
+                },
+                "change_customer_button": {
+                    "label_unselected": "Select Client",
+                    "label_selected": "Change Client Selection",
+                    "background_color": "#ffffff",
+                    "text_color": "#003167",
+                    "hover_background_color": "#003167",
+                    "hover_text_color": "#ffffff",
+                    "border_color": "#003167",
+                    "tooltip_text": "Open the customer selection dialog."
+                },
+                "load_customer_button": {
+                    "label": "Select Client",
+                    "background_color": "#007aff",
+                    "text_color": "#ffffff",
+                    "hover_background_color": "#003167",
+                    "hover_text_color": "#ffffff",
+                    "border_color": "#003167",
+                    "tooltip_text": "Load the selected customer.",
+                    "invalid_tooltip_text": "Please select a customer from the above table prior to loading."
+                },
+                "configuration_name_label": {
+                    "label": "Configuration Name",
+                    "tooltip": "Enter a unique name for the configuration. This name will be used to save the configuration."
+                }
+            },
+            "data_selection_groupbox": {
+                "title": "Data Selection",
+                "height": 150,
+                "fields": [
+                    {
+                        "label": "Operations",
+                        "type": "multi-select",
+                        "tooltip": "Select the operations to be used for the optimization.",
+                        "data_field": "CompanyOperations",
+                        "display_field": "OPERATION_CODE",
+                        "value_field": "OPERATION_ID",
+                        "default": []
+                    },
+                    {
+                        "label": "Data Delay",
+                        "type": "numeric",
+                        "validation": "integer",
+                        "minimum": -10,
+                        "maximum": 2000,
+                        "tooltip": "Select the data delay for this optimization run.",
+                        "data_field": "DataDelay",
+                        "update_data_delay": true,
+                        "default": 1
+                    },
+                    {
+                        "label": "Total Weeks",
+                        "type": "numeric",
+                        "validation": "integer",
+                        "minimum": 1,
+                        "maximum": 2000,
+                        "tooltip": "Select the number of weeks back for this optimization run.",
+                        "data_field": "WeeksBack",
+                        "update_data_delay": true,
+                        "default": 4
+                    }]
+            },
+            "configuration_metadata_box": {
+                "title": "Configurations",
+                "height": 160,
+                "background_color": "#007aff",
+                "text_color": "#ffffff",
+                "configuration_name": {
+                    "label": "Configuration Name",
+                    "tooltip": "Enter a unique name for the configuration. This name will be used to save the configuration."
+                },
+                "configuration_notes": {
+                    "label": "Configuration Notes",
+                    "tooltip": "Enter any notes for this configuration."
+                },
+                "preferred_checkbox": {
+                    "label": "Preferred Configuration",
+                    "tooltip": "Select this option to mark the configuration as preferred."
+                },
+                "reset_button": {
+                    "label": "Reset",
+                    "background_color": "#ffffff",
+                    "text_color": "#003167",
+                    "hover_background_color": "#003167",
+                    "hover_text_color": "#ffffff",
+                    "border_color": "#003167"
+                },
+                "save_button": {
+                    "label": "Save (Overwrite)",
+                    "background_color": "#ffffff",
+                    "text_color": "#003167",
+                    "hover_background_color": "#003167",
+                    "hover_text_color": "#ffffff",
+                    "border_color": "#003167"
+                },
+                "save_as_button": {
+                    "label": "Save (New)",
+                    "background_color": "#ffffff",
+                    "text_color": "#003167",
+                    "hover_background_color": "#003167",
+                    "hover_text_color": "#ffffff",
+                    "border_color": "#003167"
+                },
+                "load_button": {
+                    "label": "Load",
+                    "background_color": "#ffffff",
+                    "text_color": "#003167",
+                    "hover_background_color": "#003167",
+                    "hover_text_color": "#ffffff",
+                    "border_color": "#003167"
+                }         
+            },
+            "aggregration_builder_box": {
+                "title": "Aggregation Builder",
+                "height": 130,
+                "background_color": "#007aff",
+                "text_color": "#ffffff",
+                "fields": [
+                    {
+                    "label": "Customer Field",
+                    "type": "single-select",
+                    "tooltip": "Select the customer field for this optimization run.",
+                    "data_field": "LaneAggregateField",
+                    "display_field": "CODE_VALUE",
+                    "value_field": "CODE_LABEL",
+                    "default": null
+                    },
+                    {
+                    "label": "Org/Dst Level",
+                    "type": "single-select",
+                    "tooltip": "Select the org/dst level for this optimization run.",
+                    "data_field": "LaneGeographyLevel",
+                    "display_field": "CODE_VALUE",
+                    "value_field": "CODE_LABEL",
+                    "default": null
+                    },
+                    {
+                    "label": "A2A Lane Ld Min",
+                    "var_name": "lane_load_minimum",
+                    "data_field": null,
+                    "tooltip": "Select the A2A Lane Ld Min for this optimization run.",
+                    "type": "numeric",
+                    "validation": "integer",
+                    "minimum": 1,
+                    "maximum": 999,
+                    "default": 35
+                    }
+                ]
+            },
+            "data_exclusion": {
+                "title": "Data Exclusions",
+                "dialog_height": 600,
+                "height": 400,
+                "dialog_width": 600,
+                "width": 350,
+                "background_color": "#007aff",
+                "text_color": "#ffffff",
+                "button": {
+                    "label": "Data Exclusions",
+                    "tooltip_text": "Select data exclusion filters for this optimization run",
+                    "invalid_tooltip_text": "Select a client prior to selecting data exclusions",
+                    "background_color": "#ffffff",
+                    "text_color": "#003167",
+                    "hover_background_color": "#003167",
+                    "hover_text_color": "#ffffff",
+                    "border_color": "#003167",
+                    "invalid_background_color": "#c9c7c7",
+                    "invalid_hover_background_color": "#a8a7a7"
+                },
+                "fields": [
+                    {
+                    "label": "LOH",
+                    "type": "min-max",
+                    "tooltip": "Select the minimum and maximum LOH filters",
+                    "validation": "integer",
+                    "data_field": null,
+                    "minimum": 0,
+                    "maximum": 10000,
+                    "default": [0, 10000]
+                    },
+                    {
+                    "label": "RPM",
+                    "type": "min-max",
+                    "tooltip": "Select the minimum and maximum RPM filters",
+                    "data_field": null,
+                    "validation": "integer",
+                    "minimum": 0,
+                    "maximum": 10000,
+                    "default": [0, 10000]
+                    },
+                    {
+                    "label": "Geography",
+                    "data_field": "Geography",
+                    "tooltip": "Select geographies to use for this optimization run.",
+                    "type": "multi-select",
+                    "display_field": "AREA_ID",
+                    "value_field": "AREA_ID",
+                    "count_field": "ORDER_CT",
+                    "default": []
+                    },
+                    {
+                    "label": "Customer",
+                    "data_field": null,
+                    "tooltip": "Select customers to use for this optimization run.",
+                    "type": "multi-select",
+                    "default": [],
+                    "hidden": true
+                    },
+                    {
+                    "label": "Bill To",
+                    "data_field": "BillTo",
+                    "tooltip": "Select bill tos to use for this optimization run.",
+                    "type": "multi-select",
+                    "display_field": "BILLTO_NAME",
+                    "value_field": "BILLTO_ID",
+                    "count_field": "ORDER_CT",
+                    "default": []
+                    },
+                    {
+                    "label": "Freight Type",
+                    "data_field": null,
+                    "tooltip": "Select freight types to use for this optimization run.",
+                    "type": "multi-select",
+                    "default": [],
+                    "hidden": true
+                    },
+                    {
+                    "label": "Brokers",
+                    "data_field": null,
+                    "tooltip": "Select whether brokers should be included in this optimization run.",
+                    "type": "boolean",
+                    "default": false
+                    },
+                    {
+                    "label": "Order Div",
+                    "data_field": "OrderDivision",
+                    "tooltip": "Select order divs to use for this optimization run.",
+                    "type": "multi-select",
+                    "display_field": "ORDER_DIVISION",
+                    "value_field": "ORDER_DIVISION",
+                    "count_field": "ORDER_CT",
+                    "default": []
+                    },
+                    {
+                    "label": "Pwr Div",
+                    "data_field": "PowerDivision",
+                    "tooltip": "Select pwr divs to use for this optimization run.",
+                    "type": "multi-select",
+                    "display_field": "POWER_DIVISION",
+                    "value_field": "POWER_DIVISION",
+                    "count_field": "ORDER_CT",
+                    "default": []
+                    },
+                    {
+                    "label": "Driver Type",
+                    "data_field": "DriverType",
+                    "tooltip": "Select driver types to use for this optimization run.",
+                    "type": "multi-select",
+                    "display_field": "CODE_LABEL",
+                    "value_field": "CODE_VALUE",
+                    "count_field": "ORDER_CT",
+                    "default": [],
+                    "hidden": true
+                    },
+                    {
+                    "label": "Load to Ride",
+                    "data_field": null,
+                    "tooltip": "Select whether load to ride should be included in this optimization run.",
+                    "type": "boolean",
+                    "default": false
+                    },
+                    {
+                    "label": "Hazmat",
+                    "data_field": null,
+                    "tooltip": "Select whether hazmat should be included in this optimization run.",
+                    "type": "boolean",
+                    "default": false
+                    }
+                ]
+            },
+            "model_selector": {
+                "title": "Model Selector",
+                "height": 90,
+                "tooltip": "Select the model to be used for the optimization. You must select at least one model. If more than one model is selected, then multiple result sets will be generated.",
+                "two_trip_limit": {
+                    "label": "Two Trip Limit",
+                    "tooltip": "Select this option to run the two-trip limit model. This is the baseline model that limits the size of each tour to two trips."
+                },
+                "tsp": {
+                    "label": "Modified Traveling Salesman",
+                    "tooltip": "Select this option to run the modified traveling salesman model. This model allows tours of any size."
+                }
+            },
+            "model_parameters_groupbox": {
+                "height": 220,
+                "title": "Model Parameters",
+                "max_deadhead_selector": {
+                    "minimum": 0,
+                    "maximum": 10000,
+                    "label": "Maximum Deadhead",
+                    "tooltip": "Enter the maximum deadhead distance in miles. This is the maximum distance that a vehicle can travel without a load."
+                },
+                "mileage_rate_selector": {
+                    "minimum": 0,
+                    "maximum": 10000,
+                    "decimals": 3,
+                    "label": "Empty CPM",
+                    "tooltip": "Enter the mileage rate in dollars per mile. This is the cost per mile that a vehicle incurs when traveling without a load."
+                },
+                "margin_target_selector": {
+                    "minimum": 0,
+                    "maximum": 100,
+                    "label": "Margin Target %",
+                    "tooltip": "Enter the margin target. This is the minimum margin that must be achieved across the system for accepted trips."
+                },
+                "minimum_miles_selector": {
+                    "minimum": 0,
+                    "maximum": 99999999,
+                    "label": "Minimum Miles",
+                    "tooltip": "Enter the minimum miles. This is the minimum number of miles that must be accepted across the system."
+                },
+                "max_capacity_selector": {
+                    "minimum": 0,
+                    "maximum": 99999999,
+                    "label": "Maximum Miles",
+                    "tooltip": "Enter the maximum capacity. This is the maximum number of miles that can be accepted across the system."
+                }
+            }
+        },
+        "output_panel": {
+            "background_color": "#007aff",
+            "run_table": {
+                "completed": {
+                    "background_color": "#089000",
+                    "text_color": "#ffffff"
+                },
+                "queued": {
+                    "background_color": "#ff731c",
+                    "text_color": "#ffffff"
+                },
+                "error": {
+                    "background_color": "#ff0000",
+                    "text_color": "#ffffff"
+                },
+                "running": {
+                    "background_color": "#007aff",
+                    "text_color": "#ffffff"
+                }
+            },
+            "buttons": {
+                "cancel_button": {
+                    "label": "Cancel",
+                    "background_color": "#ffffff",
+                    "text_color": "#003167",
+                    "hover_background_color": "#003167",
+                    "hover_text_color": "#ffffff",
+                    "border_color": "#003167"
+                }
+            }
+        },
+        "dialog": {
+            "width": 600,
+            "minimum_height": 200,
+            "background_color": "#ffffff",
+            "save_button": {
+                "label": "Save",
+                "background_color": "#003167",
+                "text_color": "#ffffff",
+                "hover_background_color": "#bfcede",
+                "hover_text_color": "#003167",
+                "border_color": "#003167"
+            },
+            "cancel_button": {
+                "label": "Cancel",
+                "background_color": "#7a0404",
+                "text_color": "#ffffff",
+                "hover_background_color": "#a67272",
+                "hover_text_color": "#7a0404",
+                "border_color": "#003167"
+            },
+            "load_button": {
+                "label": "Load Configuration",
+                "background_color": "#007aff",
+                "text_color": "#ffffff",
+                "hover_background_color": "#003167",
+                "hover_text_color": "#ffffff",
+                "border_color": "#003167",
+                "tooltip_text": "Load selected configuration.",
+                "invalid_tooltip_text": "Please select a configuration from the above table prior to loading."
+            },
+            "delete_button": {
+                "label": "Delete Configuration",
+                "background_color": "#ff731c",
+                "text_color": "#ffffff",
+                "hover_background_color": "#a53f00",
+                "hover_text_color": "#ffffff",
+                "border_color": "#a53f00",
+                "tooltip_text": "Delete selected configuration.",
+                "invalid_tooltip_text": "Please select a configuration from the above table for deletion."
+            },
+            "refresh_button": {
+                "label": "Refresh",
+                "background_color": "#007aff",
+                "text_color": "#ffffff",
+                "hover_background_color": "#003167",
+                "hover_text_color": "#ffffff",
+                "border_color": "#003167"
+            }
+        },
+        "tooltip": {
+            "icon_image_path": "./configurations/images/info.png",
+            "hover_color": "white"
+        },
+        "loading_dialog": {
+            "background_color": "#007aff",
+            "text_color": "#000000",
+            "font_size": 20,
+            "font_weight": "bold",
+            "font_family": "Arial",
+            "label": "Your Application is Loading"
+        }
+    }
+}

@@ -1,0 +1,33 @@
+{
+    "solver": {
+        "solverTimeLimitSeconds": 3600,
+        "solverName": "gurobi"
+    },
+    "model": {
+        "tsp": true,
+        "two_trip_limit": false
+    },
+    "data": {
+        "trips": {
+            "columns": {
+                "trip_id": "AggLoadID",
+                "trip_revenue": "AggTotalRev",
+                "trip_cost": "AggLdCost",
+                "trip_distance": "AggLdMiles",
+                "trip_origin_zip": "AggOrgZip",
+                "trip_destination_zip": "AggDstZip"
+            }
+        }
+    },
+    "max_deadhead": null,
+    "cost_per_empty_mile": 1.0,
+    "margin_target": 0.2,
+    "max_capacity": null,
+    "min_miles": null,
+    "date_filter": {
+        "relative": {
+            "start": 0,
+            "end": 60
+        }
+    }
+}

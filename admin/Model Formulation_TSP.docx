@@ -1,0 +1,52 @@
+Freight Optimization
+This formulation will maximize gross profit over a set of freight loads by determining the acceptance decision and optimal routing for a set of loads that can each be accepted or rejected by the trucking company. Specifically, the objective and constraints are:
+
+Objective: Maximize the gross profit of active routes; gross profit is measured as the revenue from accepted loads minus the cost of servicing those loads plus the cost of empty legs.
+
+Constraints:
+All routes must be connected; origin-destination pairs that are not directly connected should be connected by an empty leg
+A minimum margin % must be achieved across the network
+All empty legs must have mileage below a certain threshold
+The capacity of a truck is a single load at once
+
+
+Sets, Parameters, and Variables
+Sets
+	Set of all origins and destinations
+	Set of all trips. Each trip, , is indexed by an origin, , and a destination, 
+
+Parameters
+	The gross profit from trip  if trip  is assigned directly after . This is the gross profit from  minus the deadhead cost from the destination of  to the origin of .
+	The revenue from trip  if trip  is assigned directly after . 
+	The margin target for this optimization run
+	The margin improvement to the solution if from trip  if trip  is assigned directly after . The margin improvement is measured as profit above (or below) the target margin this trip will provide: 
+
+	The weight of the margin target component of the objective
+
+Decision Variables
+	Binary variable, with 1 indicating that trip  directly follows trip 
+
+
+
+
+
+
+
+Formulation
+
+The objective is to maximize gross profit plus the margin improvement component. The margin target component incentivizes the model to accept trips that produce margin above the margin target; increasing the weight of this component, , will improve the margin.
+
+
+
+Each trip must be assigned as the origin of a connection at most once.
+
+
+
+If a trip has an outgoing connection, it must also have an incoming connection.
+
+
+
+Trip assignment is a binary variable.
+
+
+

@@ -1,0 +1,43 @@
+{
+    "solver": {
+        "solverTimeLimitSeconds": null,
+        "solverName": "gurobi"
+    },
+    "data": {
+        "trips": {
+            "columns": {
+                "trip_id": "ORDER_ID",
+                "trip_revenue": "AGGTOTALREV",
+                "trip_cost": "AGGLOADEDCOST",
+                "trip_distance": "AGGLOADEDMILES",
+                "trip_origin_zip": "ORIGIN_POSTAL_CODE",
+                "trip_destination_zip": "DESTINATION_POSTAL_CODE",
+                "must_take_flag": "MustTakeFlag"
+            },
+            "columnRequired": {
+                "trip_id": true,
+                "trip_revenue": true,
+                "trip_cost": true,
+                "trip_distance": true,
+                "trip_origin_zip": true,
+                "trip_destination_zip": true,
+                "must_take_flag": false
+            }
+        },
+        "empty_miles": {
+            "filename": "empty_miles",
+            "columns": {
+                "origin_zip": "ORIGIN_POSTAL_AREA",
+                "destination_zip": "DESTINATION_POSTAL_AREA",
+                "empty_miles": "MILES_AIR",
+                "empty_cost": "COST_AIR"
+            },
+            "columnRequired": {
+                "origin_zip": true,
+                "destination_zip": true,
+                "empty_miles": false,
+                "empty_cost": true
+            }
+        }
+    }
+}
