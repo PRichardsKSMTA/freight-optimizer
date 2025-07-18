@@ -24,6 +24,8 @@ class DBFileManager():
 			self.run_id = datetime.datetime.now().strftime('%Y%m%d%H%M%S')
 
 		self.init_log()
+		print("DBFileManager init: CWD =", os.getcwd())
+		print("Files here:", os.listdir(os.getcwd()))
 		self.read_params()
 
 
