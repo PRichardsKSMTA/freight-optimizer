@@ -1,9 +1,10 @@
 from PySide6.QtWidgets import QPushButton
 
+
 class StyledButton(QPushButton):
     '''
     This is a styled button class. This is used to create buttons with a consistent style across
-    the application.    
+    the application.
     '''
     def __init__(   self,
                     label,
@@ -42,6 +43,8 @@ class StyledButton(QPushButton):
         self.invalid_tooltip_text = invalid_tooltip_text
         self.padding = padding
         self.margins = margins
+        self._handler_connected = False
+        self._valid_state = None
 
         if max_width is not None:
             self.setMaximumWidth(max_width)
@@ -55,7 +58,7 @@ class StyledButton(QPushButton):
 
         self.set_valid_state(valid_state)
 
-    
+
     def set_valid_state(self, valid_state: bool=True):
         if valid_state:
             background_color = self.background_color
@@ -73,7 +76,7 @@ class StyledButton(QPushButton):
             tooltip_text = self.invalid_tooltip_text
 
         self.setStyleSheet('''
-                           
+
             QPushButton {
                 font-size: 14px;
                 font-weight: bold;
@@ -87,7 +90,7 @@ class StyledButton(QPushButton):
                 margin-left: %spx;
                 margin-right: %spx;
             }
-                           
+
             QPushButton:hover {
                 background-color: %s;
                 color: %s;
@@ -97,8 +100,8 @@ class StyledButton(QPushButton):
                 background-color: #000000;
                 color: #FFFFFF;
             }
-        ''' % (text_color, background_color, self.padding, border_color, 
-               self.margins[0], self.margins[2], self.margins[3], self.margins[1], 
+        ''' % (text_color, background_color, self.padding, border_color,
+               self.margins[0], self.margins[2], self.margins[3], self.margins[1],
                hover_background_color, hover_text_color))
 
 
@@ -106,15 +109,14 @@ class StyledButton(QPushButton):
         if tooltip_text is not None:
             self.setToolTip(tooltip_text)
 
-        if valid_state:
-            try :
-                self.clicked.disconnect()
-            except:
-                pass
-            self.clicked.connect(self.func_)
-        else:
-            try :
-                self.clicked.disconnect()
-            except:
-                pass
-            self.clicked.connect(None)
+        state_changed = self._valid_state is None or valid_state != self._valid_state
+
+        if state_changed:
+            if valid_state and not self._handler_connected:
+                self.clicked.connect(self.func_)
+                self._handler_connected = True
+            elif not valid_state and self._handler_connected:
+                self.clicked.disconnect(self.func_)
+                self._handler_connected = False
+
+        self._valid_state = valid_state
