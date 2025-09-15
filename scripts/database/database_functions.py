@@ -3,6 +3,7 @@
 in this file are used to get data from the database, write data to the database,
 and update data in the database.
 """
+import logging
 import keyring
 import numpy
 import pandas
@@ -10,6 +11,9 @@ import json
 
 import pyodbc
 import sqlalchemy
+
+
+logger = logging.getLogger(__name__)
 
 
 class NpEncoder(json.JSONEncoder):
@@ -72,6 +76,21 @@ def get_connection(database_configs: dict) -> pyodbc.Connection:
     server = 'ksm-ksmta-sqlsrv-001.database.windows.net'
     username = keyring.get_password(database_configs['credential_account'], username)
     password = keyring.get_password(database_configs['credential_account'], password)
+
+    missing_credentials = []
+    if username is None:
+        missing_credentials.append('username')
+    if password is None:
+        missing_credentials.append('password')
+
+    if missing_credentials:
+        missing_creds_str = ', '.join(missing_credentials)
+        message = (
+            "Missing database credential(s) for account "
+            f"'{database_configs['credential_account']}': {missing_creds_str}"
+        )
+        logger.error(message)
+        raise ValueError(message)
     cnxn = pyodbc.connect('DRIVER={ODBC Driver 18 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
     return cnxn
 
