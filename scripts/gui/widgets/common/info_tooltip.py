@@ -1,3 +1,6 @@
+import logging
+import os
+
 from PySide6.QtWidgets import  QToolButton
 from PySide6.QtGui import QPixmap, QImage, QIcon, QPainter, QColor
 from PySide6.QtCore import Qt
@@ -61,26 +64,44 @@ class InfoTooltip(QToolButton):
             self.setStyleSheet(INVALID_STYLE)
         self.configs = configs
         icon_image_path = configs.get_application_setting('tooltip', 'icon_image_path')
+        if not os.path.isabs(icon_image_path):
+            base_path = os.path.abspath(
+                os.path.join(os.path.dirname(__file__), '..', '..', '..', '..')
+            )
+            icon_image_path = os.path.normpath(os.path.join(base_path, icon_image_path))
+
         icon_image = QImage(icon_image_path)
-        self.pixmap = QPixmap(icon_image).scaled(15, 15, Qt.KeepAspectRatio, Qt.SmoothTransformation)
+        if icon_image.isNull():
+            logging.warning(
+                "Info tooltip icon could not be loaded from '%s'. Using a transparent placeholder.",
+                icon_image_path,
+            )
+            base_pixmap = QPixmap(15, 15)
+            base_pixmap.fill(Qt.transparent)
+        else:
+            base_pixmap = QPixmap(icon_image).scaled(
+                15, 15, Qt.KeepAspectRatio, Qt.SmoothTransformation
+            )
 
-        self.icon = QIcon() 
-        self.icon.addPixmap(self.pixmap)
-        
-        self.setIcon(self.icon) 
+        self.pixmap = base_pixmap
+        self.icon = QIcon(self.pixmap)
+        self.setIcon(self.icon)
 
-        self.setToolTip("<FONT >" + tooltip_text + "</FONT>") 
+        self.setToolTip("<FONT >" + tooltip_text + "</FONT>")
 
-        self.hoverIcon = QIcon()
-        self.painter = QPainter(self.pixmap)
-        self.painter.device() 
-        self.painter.setCompositionMode(QPainter.CompositionMode_SourceIn)
-        hover_color = configs.get_application_setting('tooltip', 'hover_color')
-        self.painter.setBrush(QColor(hover_color))
-        self.painter.setPen(QColor(hover_color))
-        self.painter.drawRect(self.pixmap.rect())
-        self.hoverIcon.addPixmap(self.pixmap)     
-        self.painter.end() 
+        if icon_image.isNull():
+            self.hoverIcon = QIcon(self.pixmap)
+        else:
+            hover_pixmap = QPixmap(self.pixmap)
+            painter = QPainter(hover_pixmap)
+            painter.device()
+            painter.setCompositionMode(QPainter.CompositionMode_SourceIn)
+            hover_color = configs.get_application_setting('tooltip', 'hover_color')
+            painter.setBrush(QColor(hover_color))
+            painter.setPen(QColor(hover_color))
+            painter.drawRect(hover_pixmap.rect())
+            painter.end()
+            self.hoverIcon = QIcon(hover_pixmap)
 
 
     #do something on hover

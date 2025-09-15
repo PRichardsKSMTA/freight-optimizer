@@ -1,3 +1,6 @@
+import logging
+import os
+
 from PySide6.QtWidgets import QLabel
 from PySide6.QtGui import QPixmap, QImage
 from PySide6.QtCore import Qt
@@ -24,9 +27,23 @@ class Header(colored_widget.ColoredWidget):
         layout.addStretch()
         label = QLabel(self)
         header_image_path = configs.get_application_setting('header', 'header_image_path')
+        if not os.path.isabs(header_image_path):
+            base_path = os.path.abspath(
+                os.path.join(os.path.dirname(__file__), '..', '..', '..')
+            )
+            header_image_path = os.path.normpath(os.path.join(base_path, header_image_path))
+
         header_image = QImage(header_image_path)
-        pixmap = QPixmap(header_image).scaled(height, height*2, Qt.KeepAspectRatio, Qt.SmoothTransformation)
-        label.setPixmap(pixmap)
+        if header_image.isNull():
+            logging.warning(
+                "Header image could not be loaded from '%s'. The header logo will be hidden.",
+                header_image_path,
+            )
+        else:
+            pixmap = QPixmap(header_image).scaled(
+                height, height*2, Qt.KeepAspectRatio, Qt.SmoothTransformation
+            )
+            label.setPixmap(pixmap)
         layout.addWidget(label)
 
 

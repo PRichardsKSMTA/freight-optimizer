@@ -14,7 +14,7 @@ from ..widgets.common.styled_hbox_layout import StyledHBoxLayout
 from ..widgets.common.styled_button import StyledButton
 from ..widgets.common.styled_scroll_area import StyledScrollArea
 from .configuration_entries_group import ConfigurationEntryGroup
-from .configuration_metadata_groupbox import ConfigurationMetaData
+from .configuration_metadata_group import ConfigurationMetaData
 from .customer_groupbox import CustomerGroupBox
 from .aggregation_builder_groupbox import AggregationBuilderGroupbox
 from .data_selection_groupbox import DataSelectionGroupbox

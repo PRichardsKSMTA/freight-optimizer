@@ -1,0 +1,6 @@
+<class 'TypeError'> unsupported operand type(s) for +: 'NoneType' and 'str'
+Traceback (most recent call last):
+  File "C:\Users\Public\Documents\freight-optimizer\scripts\gui\widgets\common\styled_completer_combobox_multi.py", line 65, in eventFilter
+    def eventFilter(self, object, event):
+
+KeyboardInterrupt
