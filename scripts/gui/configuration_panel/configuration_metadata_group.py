@@ -112,6 +112,13 @@ class ConfigurationMetaData(DisableableWidget):
         self.group_box.setLayout(vbox)
         self.layout.addWidget(self.group_box)
  
+    def reset(self) -> None:
+        """Rebuild the widget without modifying any data filters."""
+        if self.enabled:
+            self.load_ui()
+        else:
+            self.load_disabled_ui()
+
     def toggle_preferred_state(self) -> None:
         """This function toggles the preferred state for this configuration.
         """        

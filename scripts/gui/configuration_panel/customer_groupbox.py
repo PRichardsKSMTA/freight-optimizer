@@ -93,6 +93,8 @@ class CustomerGroupBox(QWidget):
         """
         self.parent.load_client(client_id)
         client_name = self.data_filter.get_client_name()
+        if pandas.isnull(client_name):
+            client_name = 'None selected'
         new_text = self.groupbox_settings['groupbox_title'] + ': ' + client_name
         self.customer_name_label.setText(new_text)
         self.change_customer_button.setText(self.groupbox_settings['change_customer_button']['label_selected'])
