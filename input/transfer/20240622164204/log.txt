@@ -1,0 +1,20 @@
+Output folder created at location: .//output/20240622164204/
+
+Optimization started at time: 2024-06-22 16:42:04
+
+Table Trips successfully read, with 3046rows and 9 columns.
+
+Table Empty Miles successfully read, with 185328rows and 4 columns.
+
+Total profit: 602099.4587688446
+
+Total time: 764.0630238056183
+
+Total trips: 4580
+
+Total run time: 764.0630238056183
+
+Total data prep time: 187.96207571029663
+
+Total optimization time: 764.0630238056183
+

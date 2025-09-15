@@ -1,0 +1,22 @@
+Output folder created at location: .//output/20241030220640/
+
+Optimization started at time: 2024-10-30 22:06:40
+
+Table Trips successfully read, with 4111rows and 9 columns.
+
+Table Empty Miles successfully read, with 102306rows and 4 columns.
+
+ERROR! Unable to meet margin threshold. Please try again with a lower margin target or higher margin trips.
+
+Total profit: -235562.5080795288
+
+Total time: 351.6717264652252
+
+Total trips: 5227
+
+Total run time: 351.6717264652252
+
+Total data prep time: 263.4592616558075
+
+Total optimization time: 351.6717264652252
+

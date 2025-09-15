@@ -1,0 +1,4 @@
+Output folder created at location: .//output/20241114194017/
+
+ERROR! No input folder exists. Expecting a folder named input at location: ./
+

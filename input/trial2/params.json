@@ -1,0 +1,19 @@
+{
+    "solver": {
+        "solverTimeLimitSeconds": null,
+        "solverName": "mosek",
+        "minimumNetMargin": 0.2
+    },
+    "data": {
+        "trips": {
+            "columns": {
+                "trip_id": "AggLoadID",
+                "trip_revenue": "AggTotalRev",
+                "trip_cost": "AggLdCost",
+                "trip_distance": "AggLdMiles",
+                "trip_origin_zip": "AggOrgZip",
+                "trip_destination_zip": "AggDstZip"
+            }
+        }
+    }
+}

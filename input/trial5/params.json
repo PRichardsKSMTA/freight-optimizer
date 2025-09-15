@@ -1,0 +1,44 @@
+{
+    "solver": {
+        "solverTimeLimitSeconds": null,
+        "solverName": "mosek",
+        "minimumNetMargin": 0.2
+    },
+    "data": {
+        "trips": {
+            "columns": {
+                "trip_id": "AggLoadID",
+                "trip_revenue": "AggTotalRev",
+                "trip_cost": "AggLdCost",
+                "trip_distance": "AggLdMiles",
+                "trip_origin_zip": "AggOrgZip",
+                "trip_destination_zip": "AggDstZip",
+                "must_take_flag": "MustTakeFlag"
+            },
+            "columnRequired": {
+                "trip_id": true,
+                "trip_revenue": true,
+                "trip_cost": true,
+                "trip_distance": true,
+                "trip_origin_zip": true,
+                "trip_destination_zip": true,
+                "must_take_flag": false
+            }
+        },
+        "empty_miles": {
+            "filename": "empty_miles",
+            "columns": {
+                "origin_zip": "OrgZip",
+                "destination_zip": "DstZip",
+                "empty_miles": "EmptyMiles",
+                "empty_cost": "EmptyCost"
+            },
+            "columnRequired": {
+                "origin_zip": true,
+                "destination_zip": true,
+                "empty_miles": false,
+                "empty_cost": true
+            }
+        }
+    }
+}
