@@ -25,13 +25,14 @@ from ..widgets.common.styled_checkbox import StyledCheckbox
 class ConfigurationMetaData(DisableableWidget): 
     """This is a groupbox that contains the configuration name entry, date created, and last modified.
     """    
-    def __init__(self, configs, data_filter: DataFilter, enabled: bool, width: int, load_client_func, 
-                 undo_changes_func, parent=None):
+    def __init__(self, configs, data_filter: DataFilter, enabled: bool, width: int, load_client_func,
+                 undo_changes_func, configuration_loaded_func=None, parent=None):
         self.configs = configs
         self.data_filter = data_filter
         self.undo_changes_func = undo_changes_func
         self.width = width
         self.load_client_func = load_client_func
+        self.configuration_loaded_func = configuration_loaded_func
         self.box_configs = self.configs.get_application_setting('configuration_panel', 'configuration_metadata_box')
         self.group_box = StyledGroupBox(self.box_configs['title'], app_configs=self.configs)
         self.group_box.setMinimumSize(width, self.box_configs['height'] - 20)
@@ -150,9 +151,13 @@ class ConfigurationMetaData(DisableableWidget):
 
     def load_configuration(self) -> None:
         """This function opens the load configuration dialog.
-        """        
-        load_dialog = LoadConfigurationDialog(self.configs, parent=self, data_filter=self.data_filter, 
-                                              on_load=lambda: self.load_client_func(self.data_filter.client_id))
+        """
+        load_dialog = LoadConfigurationDialog(
+            self.configs,
+            parent=self,
+            data_filter=self.data_filter,
+            on_load=self._handle_configuration_loaded,
+        )
         load_dialog.open_dialog()
 
 
@@ -170,7 +175,13 @@ class ConfigurationMetaData(DisableableWidget):
                                 hover_text_color=button_settings['hover_text_color'],
                                 border_color=button_settings['border_color'])
         return button
-    
+
+    def _handle_configuration_loaded(self) -> None:
+        """Refresh dependent widgets once a saved configuration has been loaded."""
+        self.load_client_func(self.data_filter.client_id)
+        if callable(self.configuration_loaded_func):
+            self.configuration_loaded_func()
+
 
 class SaveErrorDialog(StyledDialog):
     def __init__(self, configs, parent):
