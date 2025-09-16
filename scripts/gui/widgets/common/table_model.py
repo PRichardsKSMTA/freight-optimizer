@@ -28,11 +28,22 @@ class TableModel(QtCore.QAbstractTableModel):
 		
 
 	def data(self, index, role):
-		if role == Qt.DisplayRole:
-			value = self._data.iloc[index.row(), index.column()]
-			if pandas.isnull(value): 
-				return None
-			return str(value)
+                if role == Qt.DisplayRole:
+                        value = self._data.iloc[index.row(), index.column()]
+                        if pandas.api.types.is_scalar(value):
+                                if pandas.isnull(value):
+                                        return None
+                                return str(value)
+
+                        if isinstance(value, pandas.Series):
+                                value = value.tolist()
+                        elif hasattr(value, "tolist") and callable(value.tolist):
+                                value = value.tolist()
+
+                        if isinstance(value, (list, tuple)):
+                                return ", ".join(map(str, value))
+
+                        return str(value)
 		if self.color_dict is not None:
 			row_status = self._data.iloc[index.row()]['Status']
 			if row_status in self.color_dict.keys():
