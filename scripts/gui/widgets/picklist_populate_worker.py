@@ -89,7 +89,10 @@ class PicklistPopulateWorker(QRunnable):
                 dropdown_values = picklist_df[value_field].tolist()
                 if not count_field is None:
                     try:
-                        count_values = [x + ' (' + str(y) + ')' for (x,y) in zip(dropdown_choices, picklist_df[count_field])]
+                        count_values = [
+                            (str(x) if x is not None else '') + ' (' + str(y) + ')'
+                            for (x, y) in zip(dropdown_choices, picklist_df[count_field])
+                        ]
                     except KeyError:
                         print ('Error: column ' + count_field + ' not found in picklist dataframe for field ' + self.field_configs.data_field)
                         count_values = None
