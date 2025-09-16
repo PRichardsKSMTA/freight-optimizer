@@ -67,6 +67,7 @@ class ConfigurationPanel(ColoredWidget):
             width=left_width,
             load_client_func=self.load_client,
             undo_changes_func=self.undo_changes,
+            configuration_loaded_func=self.on_configuration_loaded,
             )
         metadata_scroll_area.setWidget(self.metadata_groupbox)
         metadata_scroll_area.setFixedHeight(self.model_configs.get_application_setting('configuration_panel', 'configuration_metadata_box')['height'] - 10)
@@ -127,6 +128,14 @@ class ConfigurationPanel(ColoredWidget):
         self.hlayout.addLayout(rightVboxLayout)
 
         self.setLayout(self.hlayout)
+
+
+    def on_configuration_loaded(self) -> None:
+        """Refresh dependent widgets after a saved configuration is loaded."""
+        self.metadata_groupbox.reset()
+        self.configuration_entry_group.reset()
+        self.data_selection_groupbox.reset()
+        self.aggregation_builder_groupbox.reset()
 
 
     def load_client(self, client_id: str) -> None:
@@ -246,7 +255,8 @@ class ConfigurationPanel(ColoredWidget):
 
     def clear_ui(self) -> None:
         """This function clears the UI for the widget
-        """        
+        """
         self.configuration_entry_group.reset()
         self.metadata_groupbox.reset()
         self.data_selection_groupbox.reset()
+        self.aggregation_builder_groupbox.reset()
