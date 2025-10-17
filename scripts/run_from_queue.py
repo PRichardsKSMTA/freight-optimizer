@@ -29,13 +29,14 @@ if __name__ == '__main__':
         con.close()
         print ('No items in queue')
         exit()
+    queue_id = queue_item['QUEUE_ID']
     client_id = queue_item['CLIENT_ID']
     scenario_id = queue_item['SCENARIO_ID']
     run_id = queue_item['RUN_ID']
     scac = queue_item['SCAC']
     payload = queue_item['PAYLOAD']
 
-    dbf.update_queue_item(con, run_id, start=True)
+    dbf.update_queue_item(con, queue_id, start=True)
 
     scenario = dbf.get_scenario(con, scenario_id, client_id)
     data_filter = DataFilter(model_configs.get_setting('database_configurations'), model_configs,
@@ -56,7 +57,7 @@ if __name__ == '__main__':
         'run_id': run_id
         }
     )
-    dbf.update_queue_item(con, run_id, start=False)
+    dbf.update_queue_item(con, queue_id, start=False)
 
     URL = "https://prod-59.eastus.logic.azure.com:443/workflows/b01dbc3814624f63a70ddb4e9dac90ce/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=xP08IGwZ2r0XNJuMK7_kWz0ez5Hk25hcN5Doi9A44FI"
     json_arg = json.loads(payload)

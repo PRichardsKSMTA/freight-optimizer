@@ -540,7 +540,14 @@ def get_next_queue_item(con: pyodbc.Connection) -> dict:
     Returns:
         dict: the payload of the queue record, in the form of a dictionary that 
         looks like:
-        {'CLIENT_ID': 16, 'SCENARIO_ID': 228, 'RUN_ID': '1d8fa3ea-7207-43c8-bc08-06cfaf811ba6', 'SCAC': 'MLXO', 'PAYLOAD': '{"SCAC": "MLXO", "WORKSPACE_GUID": "0c9092c3-9990-4fdc-82b4-c3f9babd9d62", "DATASET_GUID": "8026ee54-6748-4184-a79c-62290cf53875"}'}
+        {
+            'QUEUE_ID': '1502',
+            'CLIENT_ID': 16,
+            'SCENARIO_ID': 228,
+            'RUN_ID': '1d8fa3ea-7207-43c8-bc08-06cfaf811ba6',
+            'SCAC': 'MLXO',
+            'PAYLOAD': '{"SCAC": "MLXO", "WORKSPACE_GUID": "0c9092c3-9990-4fdc-82b4-c3f9babd9d62", "DATASET_GUID": "8026ee54-6748-4184-a79c-62290cf53875"}'
+        }
     '''
     query = "SELECT * FROM v_optimizer_queue_record"
     df = pandas.read_sql(query, con)
@@ -550,22 +557,18 @@ def get_next_queue_item(con: pyodbc.Connection) -> dict:
     return payload
 
 
-def update_queue_item(con: pyodbc.Connection, run_id: str, start=True) -> None:
+def update_queue_item(con: pyodbc.Connection, queue_id: str, start=True) -> None:
     '''
     This function closes the queue item by removing it from the queue
 
     Args:
         con (pyodbc.Connection): the connection to the database
-        run_id (str): the run_id to remove from the queue
+        queue_id (str): the queue_id for the item being processed
     '''
-    run_dttm = pandas.Timestamp.now().strftime('%Y-%m-%d %H:%M:%S')
-    if start:
-        field = 'RUN_START_DTTM'
-    else:
-        field = 'RUN_END_DTTM'
-    query = "UPDATE OPTIMIZER_SCHEDULE_QUEUE SET {} = '{}' WHERE RUN_ID = '{}'".format(field, run_dttm, run_id)
+    process = 'OPTIMIZER-BEGIN' if start else 'OPTIMIZER-END'
+    query = "EXEC dbo.UPDATE_OPTIMIZER_QUEUE_STATUS @QueueID = ?, @Process = ?"
     cs = con.cursor()
-    cs.execute(query)
+    cs.execute(query, (queue_id, process))
     cs.commit()
 
 
