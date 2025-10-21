@@ -568,7 +568,12 @@ def update_queue_item(con: pyodbc.Connection, queue_id: str, start=True) -> None
     process = 'OPTIMIZER-BEGIN' if start else 'OPTIMIZER-END'
     query = "EXEC dbo.UPDATE_OPTIMIZER_QUEUE_STATUS @QueueID = ?, @Process = ?"
     cs = con.cursor()
-    cs.execute(query, (queue_id, process))
+    params = []
+    for param in (queue_id, process):
+        if isinstance(param, numpy.generic):
+            param = param.item()
+        params.append(param)
+    cs.execute(query, tuple(params))
     cs.commit()
 
 
