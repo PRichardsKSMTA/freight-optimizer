@@ -3,8 +3,6 @@
 import json
 import logging
 import sys
-from datetime import datetime
-from pathlib import Path
 
 import requests
 
@@ -16,26 +14,16 @@ from manager import run_from_configuration
 
 
 def setup_logger() -> logging.Logger:
-    """Configure application logging to both stdout and a timestamped file."""
-
-    logs_dir = Path("logs")
-    logs_dir.mkdir(parents=True, exist_ok=True)
-
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    log_file = logs_dir / f"run_from_queue_{timestamp}.log"
+    """Configure application logging to stdout."""
 
     logger = logging.getLogger("run_from_queue")
     logger.setLevel(logging.INFO)
     formatter = logging.Formatter("%(asctime)s %(levelname)s %(message)s")
 
-    file_handler = logging.FileHandler(log_file)
-    file_handler.setFormatter(formatter)
-
     stream_handler = logging.StreamHandler()
     stream_handler.setFormatter(formatter)
 
     logger.handlers.clear()
-    logger.addHandler(file_handler)
     logger.addHandler(stream_handler)
 
     return logger
