@@ -6,22 +6,9 @@ cd /d C:\Users\Public\Documents\KSMTA_Optimization
 set "LOGDIR=%~dp0logs"
 if not exist "%LOGDIR%" mkdir "%LOGDIR%"
 
-for /f "tokens=2-7 delims=/.: " %%a in ("%DATE% %TIME%") do (
-  set "MM=%%a"
-  set "DD=%%b"
-  set "YYYY=%%c"
-  set "hh=%%d"
-  set "mm=%%e"
-  set "ss=%%f"
+for /f %%I in ('powershell -NoLogo -NoProfile -Command "Get-Date -Format yyyyMMddHHmmss"') do (
+  set "TIMESTAMP=%%I"
 )
-
-for %%V in (MM DD hh mm ss) do (
-  set "_val=!%%V!"
-  set "_val=0!_val!"
-  set "%%V=!_val:~-2!"
-)
-
-set "TIMESTAMP=!YYYY!!MM!!DD!!hh!!mm!!ss!"
 set "LOGFILE=!LOGDIR!\run_from_queue_!TIMESTAMP!.log"
 
 echo [%DATE% %TIME%] Starting run_from_queue>>"!LOGFILE!"
