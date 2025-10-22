@@ -38,23 +38,51 @@ if __name__ == '__main__':
 
     dbf.update_queue_item(con, queue_id, start=True)
 
-    scenario = dbf.get_scenario(con, scenario_id, client_id)
-    data_filter = DataFilter(model_configs.get_setting('database_configurations'), model_configs,
-                                         client_id=client_id)
-    data_filter.load_configuration(scenario_id, scenario=scenario)
+    run_error = None
+    try:
+        scenario = dbf.get_scenario(con, scenario_id, client_id)
+        data_filter = DataFilter(
+            model_configs.get_setting('database_configurations'),
+            model_configs,
+            client_id=client_id
+        )
+        data_filter.load_configuration(scenario_id, scenario=scenario)
 
-    model_type = 'tsp'
-    if not scenario['UseTSP']:
-        model_type = 'two_tour_limit'
+        model_type = 'tsp'
+        if not scenario['UseTSP']:
+            model_type = 'two_tour_limit'
 
-    run_from_configuration(
-        **{
-        'client_id': data_filter.client_id,
-        'scenario_id': data_filter.scenario_id,
-        'data_filters': data_filter.get_all_filters(),
-        'database_configs': model_configs.get_setting('database_configurations'),
-        'model_type': model_type,
-        'run_id': run_id
-        }
-    )
-    dbf.update_queue_item(con, queue_id, start=False)
+        run_from_configuration(
+            **{
+            'client_id': data_filter.client_id,
+            'scenario_id': data_filter.scenario_id,
+            'data_filters': data_filter.get_all_filters(),
+            'database_configs': model_configs.get_setting('database_configurations'),
+            'model_type': model_type,
+            'run_id': run_id
+            }
+        )
+    except Exception as exc:
+        run_error = exc
+        print(f"Failed to run scenario for queue item {queue_id}: {exc}")
+    finally:
+        update_error = None
+        try:
+            dbf.update_queue_item(con, queue_id, start=False)
+        except Exception as update_exc:
+            update_error = update_exc
+            print(f"Failed to update queue item {queue_id} after run: {update_exc}")
+
+        close_error = None
+        try:
+            con.close()
+        except Exception as close_exc:
+            close_error = close_exc
+            print(f"Failed to close connection for queue item {queue_id}: {close_exc}")
+
+        if run_error is not None:
+            raise run_error
+        if update_error is not None:
+            raise update_error
+        if close_error is not None:
+            raise close_error
