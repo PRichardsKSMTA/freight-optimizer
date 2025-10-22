@@ -38,7 +38,6 @@ if __name__ == '__main__':
 
     dbf.update_queue_item(con, queue_id, start=True)
 
-    run_error = None
     try:
         scenario = dbf.get_scenario(con, scenario_id, client_id)
         data_filter = DataFilter(
@@ -63,26 +62,12 @@ if __name__ == '__main__':
             }
         )
     except Exception as exc:
-        run_error = exc
         print(f"Failed to run scenario for queue item {queue_id}: {exc}")
+        raise
     finally:
-        update_error = None
         try:
             dbf.update_queue_item(con, queue_id, start=False)
         except Exception as update_exc:
-            update_error = update_exc
             print(f"Failed to update queue item {queue_id} after run: {update_exc}")
-
-        close_error = None
-        try:
+        finally:
             con.close()
-        except Exception as close_exc:
-            close_error = close_exc
-            print(f"Failed to close connection for queue item {queue_id}: {close_exc}")
-
-        if run_error is not None:
-            raise run_error
-        if update_error is not None:
-            raise update_error
-        if close_error is not None:
-            raise close_error
